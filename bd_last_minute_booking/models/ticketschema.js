@@ -1,28 +1,36 @@
-import mongoose from 'mongoose'
+
 const mongoose=require("mongoose");
 const ticketschema=new mongoose.Schema({
     pnrnumber:{
         type:Number,
-        required:true,
-        maxlength:10,
-        unique:true
+        // required:true,
+        // maxlength:10,
+        // unique:true
     },
     startdate:{
         type:Date,
-        required:true,
+        // required:true,
     },
-    enddate:{
-        type:Date,
-        required:true,
-        expires:0,
-    },
-    class:{
+    journeyclass:{
         type:String,
-        required:true
+        // required:true
     },
     price:{
         type:Number,
-        required:true
+        // required:true
+    },
+    sourceStation:{
+        type:String
+    },
+    reservationUpto:{
+        type:String
+    },
+    upi_id:{
+        type:String,
+        // required:true
+    },
+    train_no:{
+        type:Number
     }
 })
 
