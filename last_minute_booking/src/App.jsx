@@ -5,12 +5,16 @@ import Buy_ticket from './components/Buy_ticket'
 import Train_no from './components/Train_no'
 import Path from './components/Path'
 import Sell_ticket from './components/Sell_ticket'
+import Navbar from './components/Navbar'
+import Developer_desk from './components/Developer_desk'
+import Terms from './components/Terms'
 function App() {
   const router=createBrowserRouter([
     {
       path:'/',
       element:
       <div>
+        <Navbar/>
         <Home/>
       </div>
 
@@ -19,6 +23,7 @@ function App() {
       path:'/buy_ticket',
       element:
       <div>
+        <Navbar/>
         <Buy_ticket/>
       </div>
     },
@@ -26,6 +31,7 @@ function App() {
       path:'/train_no',
       element:
       <div>
+        <Navbar/>
         <Train_no/>
       </div>
     },
@@ -33,6 +39,7 @@ function App() {
       path:'/path',
       element:
       <div>
+        <Navbar/>
         <Path/>
       </div>
     },
@@ -40,7 +47,24 @@ function App() {
       path:'Sell_ticket',
       element:
       <div>
+        <Navbar/>
         <Sell_ticket/>
+      </div>
+    },
+    {
+      path:"/developer-desk",
+      element:
+      <div>
+        <Navbar/>
+        <Developer_desk/>
+      </div>
+    },
+    {
+      path:"/terms",
+      element:
+      <div>
+        <Navbar/>
+        <Terms/>
       </div>
     }
   ])

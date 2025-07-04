@@ -38,8 +38,11 @@ const Path = () => {
       price:price,
       _id:_id
     })
+    if (response.data.url) {
+    window.location.href = response.data.url; // redirect user to Stripe Checkout
+     return;
+    }
     if(response.status===200){
-      console.log("payment succesfull ho gayi be");
       const res=await axios.delete("/api/delete_ticket",{params:{
         _id:_id
       }})

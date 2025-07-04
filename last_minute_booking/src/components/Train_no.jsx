@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import axios from 'axios';
+import "./Train_no.css"
+import { loadStripe } from '@stripe/stripe-js';
 const Train_no = () => {
   const [train_number, settrain_number] = useState('');
   const[trains,settrains]=useState([]);
   const[avail,setavail]=useState(false)
   const [sold,setsold]=useState(false)
   const[pnr_no,setpnr_no]=useState("")
+  
   async function search_train(e) {
     e.preventDefault();
     try {
@@ -22,13 +25,14 @@ const Train_no = () => {
     }
   }
   async function make_payment(_id,price,pnrnumber){
+    const stripe=await loadStripe("pk_test_51RYQGSPvfO44d8OLZcZioT0Xnp6JCbL6914PRaKy8N5wsrTICekUovF7ZUieuPualb9JXZGR0OacCHLQDcwfcc3o00q2GRGQNn")
     const res=await axios.post("/api/make_payment",{
       _id:_id,
       price:price
     })
-    if(res.status===200){
-      console.log("payment successfull")
-    }
+    if (res.data.url) {
+    window.location.href = res.data.url; // redirect user to Stripe Checkout
+}
     setpnr_no(pnrnumber);
     const response=await axios.delete("/api/delete_ticket",{params:{
       _id:_id
@@ -46,7 +50,7 @@ const Train_no = () => {
           console.log(train_number);
         }}>
         </textarea>
-        <button type="submit"></button>
+        <button type="submit">search</button>
       </form>
       {avail && trains.map((train)=>{
         return<div key={train._id}>

@@ -7,9 +7,13 @@ const Sell_ticket = () => {
   const [confirmation, setconfirmation] = useState(false);
   const [upi_id, setupi_id] = useState("");
   const[train_data,settrain_data]=useState([]);
+  const[isSubmitting,setisSubmitting]=useState(false)
+  const[selling,setselling]=useState(false)
+
   async function pnr_check(e) {
     e.preventDefault();
     try {
+      setisSubmitting(true)
       const response = await axios.get(`/api/search_pnr`, {
         params: {
           pnr_no: pnrNo
@@ -24,6 +28,9 @@ const Sell_ticket = () => {
     }
     catch (error) {
       console.log("error while catchiing")
+    }
+    finally{
+      setisSubmitting(false)
     }
   }
 
@@ -44,6 +51,7 @@ const Sell_ticket = () => {
       console.log(train_data.data.journeyClass);
       if(response.status===200){
         console.log("pnr saved amount will be credited to the upi when the ticket is sold")
+        setselling(true)
       }
     } catch (error) {
       console.log("error while saving the pnr")
@@ -51,21 +59,22 @@ const Sell_ticket = () => {
   }
   return (
     <div>
-      <form action="" onSubmit={(e) => { pnr_check(e) }}>
+      <form  onSubmit={(e) => { pnr_check(e) }}>
         <h5>pnr no</h5>
-        <textarea maxLength={10} rows={1} onChange={(e) => {
+        <textarea disabled={isSubmitting}maxLength={10} rows={1} onChange={(e) => {
           setPnrNo(e.target.value); setcount(e.target.value.length)
           console.log(pnrNo)
-        }}></textarea>
+        } }></textarea>
         <h5>upi id</h5>
-        <textarea onChange={(e) => {
+        <textarea disabled={isSubmitting}onChange={(e) => {
           setupi_id(e.target.value)
           console.log(e.target.value)
         }}>
         </textarea>
-        {count === 10 && <button type="submit" >submit</button>}
+        {count === 10 && <button type="submit" disabled={isSubmitting}>submit</button>}
       </form>
       {confirmation && <button onClick={() => { save_pnr() }}>confirm</button>}
+      {selling && <p>train with {pnrNo} has been saved and amount will be credted in a week of purchase</p>}
     </div>
   )
 }

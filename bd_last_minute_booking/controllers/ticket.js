@@ -4,6 +4,7 @@ const Ticket = require("../models/ticketschema");
 const { response } = require("express");
 require("dotenv").config();
 const stripe = require("stripe")(process.env.STRIPE_SECRET);
+
 exports.pnrcheck = async (req, res) => {
   const pnr_no = req.query.pnr_no;
   const options = {
@@ -26,7 +27,8 @@ exports.pnrcheck = async (req, res) => {
 };
 
 exports.train_no = async (req, res) => {
-  console.log("request received");
+  try {
+    console.log("request received here");
   const train_no = req.query.train_number;
   const avail = await Ticket.find({ train_no: train_no });
   if (avail.length > 0) {
@@ -35,7 +37,11 @@ exports.train_no = async (req, res) => {
   }
   return res
     .status(400)
-    .json({ message: "ticket eith train_number not available" });
+    .json({ message: "ticket with train_number not available" });
+  } catch (error) {
+    console.error("Error:", error.message);
+    res.status(500).json({ error: "Failed to fetch PNR details" });
+  }
 };
 
 exports.save_pnr = async (req, res) => {
@@ -110,7 +116,7 @@ exports.make_payment = async (req, res) => {
           price_data: {
             currency: "inr",
             product_data: {
-              name: "Premium Attendance Tracker Plan",
+              name: "ticket",
             },
             unit_amount: price, // ₹499.00 in paise
           },
@@ -118,10 +124,10 @@ exports.make_payment = async (req, res) => {
         },
       ],
       mode: "payment",
-      success_url: "https://www.google.com/",
+      success_url: "http://localhost:5173/Train_no",
       cancel_url: "https://www.google.com/",
     });
-    res.status(200).json({ message: "payment successfull" });
+    return res.status(200).json({ url: session.url });
   } catch (error) {
     console.log("error here");
     console.log(error.message);
