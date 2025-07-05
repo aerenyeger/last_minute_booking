@@ -1,12 +1,14 @@
 import React from 'react'
 import axios from 'axios';
+import { useState } from 'react';
 const Available = () => {
   const[amount,setamount]=useState(null);
   const[ticket,setticket]=useState(false);
+  const baseURL=import.meta.env.VITE_BACKEND_URL
   async function pay(e){
     e.preventDefault();
    try {
-     const response=await axios.post(`/api/pay`,{
+     const response=await axios.post(`${baseURL}/api/pay`,{
       amount:amount
     })
     if(response.status===200){

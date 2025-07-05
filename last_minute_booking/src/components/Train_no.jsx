@@ -8,11 +8,11 @@ const Train_no = () => {
   const[avail,setavail]=useState(false)
   const [sold,setsold]=useState(false)
   const[pnr_no,setpnr_no]=useState("")
-  
+  const baseURL=import.meta.env.VITE_BACKEND_URL
   async function search_train(e) {
     e.preventDefault();
     try {
-      const response = await axios.get("/api/train_no/", {
+      const response = await axios.get(`${baseURL}/api/train_no/`, {
         params: {
           train_number: train_number, // ✅ matches backend
         }
@@ -26,7 +26,7 @@ const Train_no = () => {
   }
   async function make_payment(_id,price,pnrnumber){
     const stripe=await loadStripe("pk_test_51RYQGSPvfO44d8OLZcZioT0Xnp6JCbL6914PRaKy8N5wsrTICekUovF7ZUieuPualb9JXZGR0OacCHLQDcwfcc3o00q2GRGQNn")
-    const res=await axios.post("/api/make_payment",{
+    const res=await axios.post(`${baseURL}/api/make_payment`,{
       _id:_id,
       price:price
     })
@@ -34,7 +34,7 @@ const Train_no = () => {
     window.location.href = res.data.url; // redirect user to Stripe Checkout
 }
     setpnr_no(pnrnumber);
-    const response=await axios.delete("/api/delete_ticket",{params:{
+    const response=await axios.delete(`${baseURL}/api/delete_ticket`,{params:{
       _id:_id
     }})
     if(response.status===200){

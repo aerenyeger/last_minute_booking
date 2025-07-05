@@ -10,10 +10,11 @@ const Path = () => {
   const[trains,settrains]=useState([]);
   const [sold,setsold]=useState(false)
   const[pnr_no,setpnr_no]=useState("")
+  const baseURL=import.meta.env.VITE_BACKEND_URL
   async function search_ticket(e){
     e.preventDefault();
     try {
-      const resp=await axios.get(`/api/path`,{params:{
+      const resp=await axios.get(`${baseURL}/api/path`,{params:{
       sourceStation:source,
       reservationUpto:dest,
     }})
@@ -34,7 +35,7 @@ const Path = () => {
     console.log(_id)
     console.log(price)
     const stripe=await loadStripe("pk_test_51RYQGSPvfO44d8OLZcZioT0Xnp6JCbL6914PRaKy8N5wsrTICekUovF7ZUieuPualb9JXZGR0OacCHLQDcwfcc3o00q2GRGQNn")
-    const response=await axios.post("/api/make_payment",{
+    const response=await axios.post(`${baseURL}/api/make_payment`,{
       price:price,
       _id:_id
     })
@@ -43,7 +44,7 @@ const Path = () => {
      return;
     }
     if(response.status===200){
-      const res=await axios.delete("/api/delete_ticket",{params:{
+      const res=await axios.delete(`${baseURL}/api/delete_ticket`,{params:{
         _id:_id
       }})
       setpnr_no(pnrnumber)
@@ -57,16 +58,16 @@ const Path = () => {
     <div>
       <form onSubmit={(e)=>{search_ticket(e)}}>
         <h4>source</h4>
-        <textarea onChange={(e)=>{setsource(e.target.value)
+        <textarea value={source}onChange={(e)=>{setsource(e.target.value)
           console.log(source)
         }}></textarea>
         <h4>destination</h4>
-        <textarea onChange={(e)=>{setdest(e.target.value)
+        <textarea value={dest}onChange={(e)=>{setdest(e.target.value)
           console.log(dest)
         }}></textarea>
-        <button type={'submit'}></button>
+        <button type={'submit'}>search</button>
       </form>
-      {setbuy  && trains.map((train)=>(
+      {buy  && trains.map((train)=>(
         <div key={train._id}>
         <p>{train.train_no}</p>
         <p>{train.startdate}</p>

@@ -7,7 +7,7 @@ const Trainroutes = require('./routes/Trainroutes');
 
 require("dotenv").config()
 
-const port=process.env.port
+const port=process.env.port || 3000
 
 const mongoose = require('mongoose');
 app.use(express.json());

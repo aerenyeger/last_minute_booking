@@ -44,7 +44,7 @@ function App() {
       </div>
     },
     {
-      path:'Sell_ticket',
+      path:'/Sell_ticket',
       element:
       <div>
         <Navbar/>

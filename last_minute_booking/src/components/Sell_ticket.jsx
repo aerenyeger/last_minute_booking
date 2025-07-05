@@ -9,12 +9,12 @@ const Sell_ticket = () => {
   const[train_data,settrain_data]=useState([]);
   const[isSubmitting,setisSubmitting]=useState(false)
   const[selling,setselling]=useState(false)
-
+  const baseURL=import.meta.env.VITE_BACKEND_URL
   async function pnr_check(e) {
     e.preventDefault();
     try {
       setisSubmitting(true)
-      const response = await axios.get(`/api/search_pnr`, {
+      const response = await axios.get(`${baseURL}/api/search_pnr`, {
         params: {
           pnr_no: pnrNo
         }
@@ -37,7 +37,7 @@ const Sell_ticket = () => {
   // api call 
   async function save_pnr() {
     try {
-      const response=await axios.post("/api/save_pnr", {
+      const response=await axios.post(`${baseURL}/api/save_pnr`, {
         pnrNo: pnrNo,
         upi_id: upi_id,
         startdate:train_data.data.dateOfJourney,
