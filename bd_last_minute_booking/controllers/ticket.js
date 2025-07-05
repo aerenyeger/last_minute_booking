@@ -124,7 +124,7 @@ exports.make_payment = async (req, res) => {
         },
       ],
       mode: "payment",
-      success_url: "http://localhost:5173/Train_no",
+      success_url: "https://last-minute-booking-frontend.onrender.com/Train_no",
       cancel_url: "https://www.google.com/",
     });
     return res.status(200).json({ url: session.url });
