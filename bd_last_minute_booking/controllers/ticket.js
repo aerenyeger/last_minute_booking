@@ -22,7 +22,7 @@ exports.pnrcheck = async (req, res) => {
     return res.json(response.data);
   } catch (error) {
     console.error("Error:", error.message);
-    res.status(500).json({ error: "Failed to fetch PNR details" });
+    res.status(500).json({ message: "Failed to fetch PNR details" });
   }
 };
 
@@ -40,7 +40,7 @@ exports.train_no = async (req, res) => {
     .json({ message: "ticket with train_number not available" });
   } catch (error) {
     console.error("Error:", error.message);
-    res.status(500).json({ error: "Failed to fetch PNR details" });
+    res.status(500).json({ message: "Failed to fetch PNR details" });
   }
 };
 
@@ -109,6 +109,7 @@ exports.make_payment = async (req, res) => {
   try {
     const price = Math.round(req.body.price * 100);
     const _id = req.body._id;
+    const pnrnumber=req.body.pnrnumber
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
@@ -124,7 +125,8 @@ exports.make_payment = async (req, res) => {
         },
       ],
       mode: "payment",
-      success_url: "https://last-minute-booking-frontend.onrender.com/Train_no",
+       success_url: `https://last-minute-booking-frontend.onrender.com/sucess-payment?_id=${_id}&pnrnumber=${pnrnumber}`,
+      // success_url: `http://localhost:5173/sucess-payment?_id=${_id}&pnrnumber=${pnrnumber}`,
       cancel_url: "https://www.google.com/",
     });
     return res.status(200).json({ url: session.url });

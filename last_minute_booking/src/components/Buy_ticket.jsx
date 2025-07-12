@@ -12,13 +12,21 @@ const Buy_ticket = () => {
   }
 
   return (
-    <div>
-      <button onClick={navigate_to_path}>
+    <div className='bg-[url("/train.png")] w-full min-h-[calc(100vh-33px)] bg-cover'>
+      <div className='bg-white w-80 absolute top-60 left-150 p-2 rounded-md'>
+        <h1 className='font-bold text-5xl'>Buy Ticket </h1>
+        <br />
+      <h1 className='text-2xl'>Search with source and dest</h1>
+      <button className="bg-blue-600 hover:bg-blue-600 text-white font-medium px-4 py-2 rounded-md border-b-2 border-b-gray-50 transition hover:cursor-pointer "onClick={navigate_to_path}>
         path
       </button>
-      <button onClick={navigate_to_Train_no}>
+      <br />
+      <br />
+      <h1 className=' text-2xl'>Search with Train Number</h1>
+      <button className="bg-blue-600 hover:bg-blue-600 text-white font-medium px-4 py-2 rounded-md border-b-2 border-b-gray-50 transition hover:cursor-pointer " onClick={navigate_to_Train_no}>
         train_number
       </button>
+      </div>
     </div>
   )
 }

@@ -5,9 +5,12 @@ import Buy_ticket from './components/Buy_ticket'
 import Train_no from './components/Train_no'
 import Path from './components/Path'
 import Sell_ticket from './components/Sell_ticket'
+import Sold from './components/Sold'
 import Navbar from './components/Navbar'
 import Developer_desk from './components/Developer_desk'
 import Terms from './components/Terms'
+import { Toaster } from 'react-hot-toast';
+
 function App() {
   const router=createBrowserRouter([
     {
@@ -66,10 +69,20 @@ function App() {
         <Navbar/>
         <Terms/>
       </div>
+    },
+    {
+      path:"/sucess-payment",
+      element:
+      <div>
+        <Sold/>
+      </div>
     }
   ])
   return (
+    <>
+    <Toaster position="top-center" reverseOrder={false} />
     <RouterProvider router={router}></RouterProvider>
+    </>
   )
 }
 
